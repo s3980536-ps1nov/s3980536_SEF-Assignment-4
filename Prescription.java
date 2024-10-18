@@ -1,12 +1,11 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
-import java.io.PrintWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
-public class Prescription{
+public class Prescription {
     private int prescID;
     private String firstName;
     private String lastName;
@@ -23,7 +22,6 @@ public class Prescription{
 
     // DATE FORMAT CHEKCER AND FILE INPUT STREAM
     public boolean addPrescription() {
-
         boolean accepted = true;
 
         if (this.firstName.length() < 4 || this.firstName.length() > 15) {
@@ -46,18 +44,34 @@ public class Prescription{
         }
 
         if (accepted) {
-            FileOutputStream fStream;
             try {
-                fStream = new FileOutputStream("presc.txt");
-            } catch (FileNotFoundException e) { }
-            PrintWriter outFS = new PrintWriter(fStream);
 
+            FileWriter outFS = new FileWriter("presc.txt", true);
+
+            outFS.write("Prescription ID: " + prescID);
+            outFS.write("First Name: " + firstName);
+            outFS.write("Last Name: " + lastName);
+            outFS.write("Address: " + address);
+            outFS.write("Sphere: " + sphere);
+            outFS.write("Cylinder: " + cylinder);
+            outFS.write("Axis: " + axis);
+            outFS.write("Optometrist: " + optometrist);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+            String formattedDate = dateFormat.format(examinationDate);
+            outFS.write("Examination Date: " + formattedDate);
 
             outFS.close();
+        } catch (IOException e) {
+            System.out.println("An error occured while writing to the file.");
+            e.printStackTrace();
+            accepted = false;
         }
-
-        return accepted;
     }
+    return accepted;
+    }
+
+
 
     public boolean addRemark() {
         return true;
