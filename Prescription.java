@@ -42,25 +42,28 @@ public class Prescription {
         if (this.axis < 0 || this.axis > 180) {
             accepted = false;
         }
+        if (this.optometrist.length() < 8 || this.optometrist.length() > 25) {
+            accepted = false;
+        }
 
         if (accepted) {
             try {
 
             FileWriter outFS = new FileWriter("presc.txt", true);
 
-            outFS.write("Prescription ID: " + prescID);
-            outFS.write("First Name: " + firstName);
-            outFS.write("Last Name: " + lastName);
-            outFS.write("Address: " + address);
-            outFS.write("Sphere: " + sphere);
-            outFS.write("Cylinder: " + cylinder);
-            outFS.write("Axis: " + axis);
-            outFS.write("Optometrist: " + optometrist);
-
+            outFS.write("Prescription ID: " + prescID + "\n");
+            outFS.write("First Name: " + firstName + "\n");
+            outFS.write("Last Name: " + lastName + "\n");
+            outFS.write("Address: " + address + "\n");
+            outFS.write("Sphere: " + sphere + "\n");
+            outFS.write("Cylinder: " + cylinder + "\n");
+            outFS.write("Axis: " + axis + "\n");
+            
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
             String formattedDate = dateFormat.format(examinationDate);
             outFS.write("Examination Date: " + formattedDate);
-
+            outFS.write("Optometrist: " + optometrist);
+            
             outFS.close();
         } catch (IOException e) {
             System.out.println("An error occured while writing to the file.");
@@ -71,109 +74,106 @@ public class Prescription {
     return accepted;
     }
 
+    public boolean addRemark(String remarkText, String remarkType) {
 
+        boolean valid = true;
 
-    public boolean addRemark() {
-        return true;
+        //Condition to split up the remarks into works and make sure that is is above 6 and less than 20 words. trim removes trailing, split at white spaces and any recurring
+        String[] words = remarkText.trim().split("\\s+");
+        if (words.length < 6 || words.length > 20 ) {
+            valid = false;
+        }
+
+        //Condition to check whether the first letter of the remark of the first work is upper case or not
+        if (!Character.isUpperCase(words[0].charAt(0))) {
+            valid = false;
+        }
+
+        // Condition to check whether remark type is either client or optometrist and nothing outside of it.
+        if (!remarkType.equalsIgnoreCase("Client") || !remarkType.equalsIgnoreCase("Optometrist")) {
+            valid = false;
+        }
+
+        //Condition to check if there are alr 2 remarks
+        if (postRemarks.size() >= 2) {
+            valid = false;
+        }
+
+        // if conditions all passed and valid stays true, add remarks to post remarks
+        if(valid) {
+            postRemarks.add(remarkType + ": " + remarkText);
+        }
+
+        try (FileWriter reviewWriter = new FileWriter("review.txt", true)) {
+            reviewWriter.write(remarkType + ": " + remarkText + "\n");
+        } catch (IOException e){
+            System.out.println("Error in writing remarks to file.");
+            e.printStackTrace();
+            valid = false;
+        }
+
+        return valid;
     }
 
-    public void setPrescID() {
-        System.out.println("Enter the prescription ID:");
-        prescID = scnr.nextInt();
+    public void setPrescID(int id) {
+        prescID = id;
     }
 
     public int getPrescID() {
         return this.prescID;
     }
 
-    public void setFirstName() {
-        System.out.println("Enter your first name:");
-        firstName = scnr.nextLine();
-        //Pre-condition checks before the variable is accepted to avoid invalid inputs overall
-        // while (firstName.length() < 4 || firstName.length() > 15) {
-        //     System.out.println("Please re-enter your first name:");
-        //     firstName = scnr.nextLine();
-        // }
+    public void setFirstName(String name) {
+        firstName = name;
     }
 
     public String getFirstName() {
         return this.firstName;
     }
 
-    public void setLastName() {
-        System.out.println("Enter your last name:");
-        lastName = scnr.nextLine();
-        //Pre-condition checks before the variable is accepted to avoid invalid inputs overall
-        // while (lastName.length() < 4 || lastName.length() > 15) {
-        //     System.out.println("Please re-enter your last name:");
-        //     lastName = scnr.nextLine();
-        // }
+    public void setLastName(String name) {
+        this.lastName = name;
     }
 
     public String getLastName() {
         return this.lastName;
     }
 
-    public void setAddress() {
-        System.out.println("Enter your address:");
-        address = scnr.nextLine();
-        //Pre-condition checks before the variable is accepted to avoid invalid inputs overall
-        // while (address.length() < 20) {
-        //     System.out.println("Please re-enter your address:");
-        //     address = scnr.nextLine();
-        // }
+    public void setAddress(String add) {
+        this.address = add;
     }
 
     public String getAddress() {
         return this.address;
     }
 
-    public void setSphere() {
-        System.out.println("Enter the sphere value:");
-        sphere = scnr.nextFloat();
-        // while(sphere > 20 || sphere < -20) {
-        //     System.out.println("Please re-enter the sphere value:");
-        //     sphere = scnr.nextFloat();
-        // }
+    public void setSphere(float num) {
+        this.sphere = num;
+
     }
 
     public float getSphere() {
         return this.sphere;
     }
 
-    public void setCylinder() {
-        System.out.println("Enter the cylinder value");
-        cylinder = scnr.nextFloat();
-        // while (cylinder > 4 || cylinder < -4) {
-        //     System.out.println("Please re-enter the cylinder value:");
-        //     cylinder = scnr.nextFloat();
-        // }
+    public void setCylinder(float num) {
+        this.cylinder = num;
     }
 
     public float getCylinder() {
         return this.cylinder;
     }
 
-    public void setAxis() {
-        System.out.println("Enter the axis value:");
-        axis = scnr.nextFloat();
-        // while (axis > 180 || axis < 0) {
-        //     System.out.println("Please re-enter the axis value:");
-        //     axis = scnr.nextFloat();
-        // }
+    public void setAxis(float num) {
+        this.axis = num;
     }
 
     public float getAxis() {
         return this.axis;
     }
 
-    public void setOptometrist() {
-        System.out.println("Enter the optometrist's name");
-        optometrist = scnr.nextLine();
-        // while (optometrist.length() < 8 || optometrist.length() > 25) {
-        //     System.out.println("Please re-enter the optometrist's name:");
-        //     optometrist = scnr.nextLine();
-        // }
+    public void setOptometrist(String opt) {
+        this.optometrist = opt;
     }
 
     public String getOptometrist() {
