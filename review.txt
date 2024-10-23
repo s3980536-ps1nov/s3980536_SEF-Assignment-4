@@ -1,0 +1,12 @@
+Client: This is my first remark
+Admin: The store's sales are going up every day.
+Optometrist: this remark is for patient number 1 
+Client: This is a tester remark, remark number 1
+Client: This is a tester remark, remark number 2
+Client: This is the third remark for the client.
+Optometrist: This client needs to be rescheduled for an appointment
+Optometrist: The client is cool
+Owner: My employees are doing well at their job
+Client: my optometrist recommends this prescription for my glasses
+: This is a remark by the optometrist
+Client: My optometrist was very helpful and I am satisfied.
