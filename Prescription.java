@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
 
 public class Prescription {
     private int prescID;
@@ -18,9 +17,6 @@ public class Prescription {
     private String[] remarkTypes= {"Client", "Optometrist"};
     private ArrayList <String> postRemarks= new ArrayList<>();
 
-    Scanner scnr = new Scanner(System.in);
-
-    // DATE FORMAT CHEKCER AND FILE INPUT STREAM
     public boolean addPrescription() {
         boolean accepted = true;
 
@@ -90,7 +86,7 @@ public class Prescription {
         }
 
         // Condition to check whether remark type is either client or optometrist and nothing outside of it.
-        if (!remarkType.equalsIgnoreCase("Client") || !remarkType.equalsIgnoreCase("Optometrist")) {
+        if (!remarkType.equalsIgnoreCase(remarkTypes[0]) && !remarkType.equalsIgnoreCase(remarkTypes[1])) {
             valid = false;
         }
 
@@ -114,6 +110,9 @@ public class Prescription {
 
         return valid;
     }
+
+
+    // **************ALL SETTER GETTER METHODS BELOW*******************
 
     public void setPrescID(int id) {
         prescID = id;
@@ -170,6 +169,14 @@ public class Prescription {
 
     public float getAxis() {
         return this.axis;
+    }
+
+    public void setDate(Date d) {
+        this.examinationDate = d;
+    }
+
+    public Date getExaminationDate() {
+        return this.examinationDate;
     }
 
     public void setOptometrist(String opt) {
